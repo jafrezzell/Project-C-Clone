@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_image.h"
+#include "WorldSpaceConstructs.h"
 #include <iostream>
 
 class Game {
@@ -16,6 +17,7 @@ public:
 	void clean();
 
 	static SDL_Renderer* renderer;
+	static const int tileSize = 32;
 
 	bool running();
 private:
