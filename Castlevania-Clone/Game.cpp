@@ -1,9 +1,14 @@
 #include "Game.h"
 #include "GameObject.h";
-
+#include "Actor.h"
+#include "Player.h"
+#include <vector>
 SDL_Renderer* Game::renderer = nullptr;
 Transform transform;
-GameObject gameObject; 
+Player player; 
+
+std::vector<GameObject> objList;
+
 
 Game::Game()
 {
@@ -27,7 +32,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
-	gameObject = GameObject("assets/Enemy_Wizard.png",transform);
+	player = Player("assets/Enemy_Wizard.png",transform);
+	GameObject box = GameObject("assets/wall.png", Transform(50,0,1));
+	objList.push_back(box);
+	//player.toggleGravity();
 
 }
 
@@ -41,23 +49,45 @@ void Game::events()
 		{
 			isRunning = false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
+		const Uint8* state = SDL_GetKeyboardState(NULL);
+		if (state[SDL_SCANCODE_RIGHT]) {
+			player.horizontal = 1;
+		}
+		else if (state[SDL_SCANCODE_LEFT]) {
+			player.horizontal = -1;
+		}
+		else {
+			player.horizontal = 0;
+		}
+		if (state[SDL_SCANCODE_SPACE]) {
+			player.vertical = 1;
+		}
+		else {
+			player.vertical = 0;
 		}
 
+		for (auto& obj : objList) {
+			obj.handleCollision(&player.destR);
+		}
 
 	}
 }
 
 void Game::update()
 {
-	gameObject.update();
+	player.update();
+	for (auto& obj : objList) {
+		obj.update();
+	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	gameObject.render();
+	player.render();
+	for (auto& obj : objList) {
+		obj.render();
+	}
 	SDL_RenderPresent(renderer);
 
 }
