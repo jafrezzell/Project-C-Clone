@@ -10,7 +10,7 @@ public:
 	void update();
 	void render();
 
-	bool handleCollision(SDL_Rect* a);
+	bool handleCollision(GameObject* other);
 
 	void toggleGravity();
 	Transform transform;
@@ -21,6 +21,10 @@ public:
 
 	bool gravity;
 	bool isFalling;
+
+	int horizontal;
+	int vertical;
+
 private:
 
 };

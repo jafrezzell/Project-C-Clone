@@ -33,8 +33,11 @@ GameObject::~GameObject()
 
 void GameObject::update()
 {
+	this->transform.x += horizontal;
+	this->transform.y -= vertical;
 	if (gravity) {
-		this->transform.y += 3;
+		if (vertical > -4)
+			vertical -= 1;
 	}
 	destR.x = transform.x;
 	destR.y = transform.y;
@@ -46,9 +49,10 @@ void GameObject::render()
 {
 	TextureManager::Draw(texture, srcR, destR, Game::renderer);
 }
-/*a is always the player and b is always 'this' game object*/
-bool GameObject::handleCollision(SDL_Rect* a)
+/*a is usually the player and b is always 'this' game object*/
+bool GameObject::handleCollision(GameObject* other)
 {
+	SDL_Rect* a = &other->destR;
 	SDL_Rect* b = &this->destR;
 	//The sides of the rectangles
 	int leftA, leftB;
@@ -88,7 +92,6 @@ bool GameObject::handleCollision(SDL_Rect* a)
 	{
 		return false;
 	}
-
 	//If none of the sides from A are outside B
 	std::map<char, int> diffs;
 	diffs['l'] = std::abs(rightA - leftB);
@@ -98,19 +101,23 @@ bool GameObject::handleCollision(SDL_Rect* a)
 	int minDist = NULL;
 	char direction = 'e';
 	for (auto thing : diffs) {
-		std::cout << thing.first << std::endl;
-		if (minDist == NULL || thing.second < minDist) {
+		if (minDist == NULL || thing.second <= minDist) {
 			minDist = thing.second;
 			direction = (char)thing.first;
 		}
 	}
 	switch (direction) {
-	case 'l':std::cout << "1212HERE::" << direction << std::endl; break;
-	case 'r':std::cout << "HERE::" << direction << std::endl; break;
-	case 't':std::cout << "HERE::" << direction << std::endl; break;
-	case 'b':std::cout << "HERE::" << direction << std::endl; break;
+	case 'l': other->transform.x -= diffs['l'];
+		break;
+	case 'r': other->transform.x += diffs['r'];
+		break;
+	case 't': other->transform.y = topB - other->destR.h;
+		other->gravity = false;
+		other->vertical = 0;
+		break;
+	case 'b': other->transform.y += diffs['b'];
+		break;
 	}
-
 	return true;
 }
 

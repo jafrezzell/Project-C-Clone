@@ -3,6 +3,8 @@ Actor::Actor(const char* textureSheet, Transform transform) : GameObject(texture
 {
 	horizontal = 0;
 	vertical = 0;
+	health = 100;
+	maxHealth = 100;
 }
 
 Actor::Actor()
@@ -15,7 +17,5 @@ Actor::~Actor()
 
 void Actor::update()
 {
-	this->transform.x += horizontal;
-	this->transform.y -= 10*vertical;
 	GameObject::update();
 }

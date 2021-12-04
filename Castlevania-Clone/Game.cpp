@@ -33,9 +33,24 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = true;
 	}
 	player = Player("assets/Enemy_Wizard.png",transform);
-	GameObject box = GameObject("assets/wall.png", Transform(50,0,1));
+	GameObject box = GameObject("assets/wall.png", Transform(0,300,1));
 	objList.push_back(box);
-	//player.toggleGravity();
+	GameObject box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
+	objList.push_back(box1);
+	GameObject box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
+	objList.push_back(box2);
+	GameObject box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
+	objList.push_back(box3);
+	GameObject box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
+	objList.push_back(box4);
+	GameObject box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
+	objList.push_back(box5);
+	player.toggleGravity();
+	
+	player.update();
+	for (auto& obj : objList) {
+		obj.update();
+	}
 
 }
 
@@ -60,16 +75,18 @@ void Game::events()
 			player.horizontal = 0;
 		}
 		if (state[SDL_SCANCODE_SPACE]) {
-			player.vertical = 1;
+			player.vertical = 10;
+			player.gravity = true;
 		}
-		else {
-			player.vertical = 0;
-		}
-
-		for (auto& obj : objList) {
-			obj.handleCollision(&player.destR);
+		else if (state[SDL_SCANCODE_DOWN]) {
+			player.vertical = -1;
 		}
 
+
+	}
+	for (auto& obj : objList) {
+		if (obj.handleCollision(&player)) {
+		}
 	}
 }
 

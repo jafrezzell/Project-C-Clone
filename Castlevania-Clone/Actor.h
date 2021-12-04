@@ -6,8 +6,8 @@ public:
 	Actor();
 	~Actor();
 	void update();
-	int horizontal;
-	int vertical;
 
+	int health;
+	int maxHealth = 100;
 private:
 };
