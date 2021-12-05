@@ -65,10 +65,10 @@ void Game::events()
 			isRunning = false;
 		}
 		const Uint8* state = SDL_GetKeyboardState(NULL);
-		if (state[SDL_SCANCODE_RIGHT]) {
+		if (state[SDL_SCANCODE_D]) {
 			player.horizontal = 1;
 		}
-		else if (state[SDL_SCANCODE_LEFT]) {
+		else if (state[SDL_SCANCODE_A]) {
 			player.horizontal = -1;
 		}
 		else {
@@ -78,11 +78,9 @@ void Game::events()
 			player.vertical = 10;
 			player.gravity = true;
 		}
-		else if (state[SDL_SCANCODE_DOWN]) {
-			player.vertical = -1;
+		if (state[SDL_SCANCODE_LSHIFT]) {
+			player.horizontal *= 2;
 		}
-
-
 	}
 	for (auto& obj : objList) {
 		if (obj.handleCollision(&player)) {
