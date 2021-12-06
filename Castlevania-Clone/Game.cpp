@@ -1,9 +1,14 @@
 #include "Game.h"
 #include "GameObject.h";
-
+#include "Actor.h"
+#include "Player.h"
+#include <vector>
 SDL_Renderer* Game::renderer = nullptr;
 Transform transform;
-GameObject gameObject; 
+Player player; 
+
+std::vector<GameObject> objList;
+
 
 Game::Game()
 {
@@ -27,7 +32,25 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
-	gameObject = GameObject("assets/Enemy_Wizard.png",transform);
+	player = Player("assets/Enemy_Wizard.png",transform);
+	GameObject box = GameObject("assets/wall.png", Transform(0,300,1));
+	objList.push_back(box);
+	GameObject box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
+	objList.push_back(box1);
+	GameObject box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
+	objList.push_back(box2);
+	GameObject box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
+	objList.push_back(box3);
+	GameObject box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
+	objList.push_back(box4);
+	GameObject box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
+	objList.push_back(box5);
+	player.toggleGravity();
+	
+	player.update();
+	for (auto& obj : objList) {
+		obj.update();
+	}
 
 }
 
@@ -41,23 +64,45 @@ void Game::events()
 		{
 			isRunning = false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
+		const Uint8* state = SDL_GetKeyboardState(NULL);
+		if (state[SDL_SCANCODE_D]) {
+			player.horizontal = 1;
 		}
-
-
+		else if (state[SDL_SCANCODE_A]) {
+			player.horizontal = -1;
+		}
+		else {
+			player.horizontal = 0;
+		}
+		if (state[SDL_SCANCODE_SPACE]) {
+			player.vertical = 10;
+			player.gravity = true;
+		}
+		if (state[SDL_SCANCODE_LSHIFT]) {
+			player.horizontal *= 2;
+		}
+	}
+	for (auto& obj : objList) {
+		if (obj.handleCollision(&player)) {
+		}
 	}
 }
 
 void Game::update()
 {
-	gameObject.update();
+	player.update();
+	for (auto& obj : objList) {
+		obj.update();
+	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	gameObject.render();
+	player.render();
+	for (auto& obj : objList) {
+		obj.render();
+	}
 	SDL_RenderPresent(renderer);
 
 }
