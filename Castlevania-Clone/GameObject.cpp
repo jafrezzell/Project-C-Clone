@@ -27,6 +27,8 @@ GameObject::GameObject(const char* textureSheet,Transform transform)
 	texture = TextureManager::LoadTexture(textureSheet, Game::renderer);
 	this->gravity = false;
 	this->isFalling = false;
+	horizontal = 0;
+	vertical = 0;
 }
 
 GameObject::~GameObject()

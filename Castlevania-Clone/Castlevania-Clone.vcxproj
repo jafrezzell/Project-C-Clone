@@ -156,7 +156,10 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WanderingObstacle.cpp" />
     <ClCompile Include="WorldSpaceConstructs.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +167,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Spawner.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="WanderingObstacle.h" />
     <ClInclude Include="WorldSpaceConstructs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
