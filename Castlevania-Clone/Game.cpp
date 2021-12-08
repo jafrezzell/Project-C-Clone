@@ -2,12 +2,22 @@
 #include "GameObject.h";
 #include "Actor.h"
 #include "Player.h"
+#include "WanderingObstacle.h"
+#include "TextureManager.h"
 #include <vector>
 SDL_Renderer* Game::renderer = nullptr;
+Camera Game::camera;
 Transform transform;
 Player player; 
-
-std::vector<GameObject> objList;
+WanderingObstacle obj;
+GameObject box;
+GameObject box1;
+GameObject box2;
+GameObject box3;
+GameObject box4;
+GameObject box5;
+std::vector<GameObject*> objList;
+SDL_Texture* backgroundtex;
 
 
 Game::Game()
@@ -32,28 +42,35 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
+
+	backgroundtex = TextureManager::LoadTexture("assets/background.jpg",Game::renderer);
+	player = Player("assets/Enemy_Wizard.png",transform);
+	box = GameObject("assets/wall.png", Transform(0, 300, 1));
+	box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
+	box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
+	box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
+	box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
+	box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
+	objList.push_back(&box);
+	objList.push_back(&box1);
+	objList.push_back(&box2);
+	objList.push_back(&box3);
+	objList.push_back(&box4);
+	objList.push_back(&box5);
+	obj = WanderingObstacle("assets/wall.png", Transform(160, 400, 1), 1);
+	objList.push_back(&obj);
+
 	player = Player("assets/PlayerAnims/anim_IdleRight",transform);
 	player.LoadAllAnimations();
 
-	GameObject box = GameObject("assets/wall.png", Transform(0,300,1));
-	objList.push_back(box);
-	GameObject box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
-	objList.push_back(box1);
-	GameObject box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
-	objList.push_back(box2);
-	GameObject box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
-	objList.push_back(box3);
-	GameObject box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
-	objList.push_back(box4);
-	GameObject box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
-	objList.push_back(box5);
 	player.toggleGravity();
-	
 	player.update();
 	for (auto& obj : objList) {
-		obj.update();
+		obj->update();
 	}
-
+	Game::camera = Camera();
+	Game::camera.setTarget(&player.origin);
+	Game::camera.update();
 }
 
 void Game::events()
@@ -118,7 +135,7 @@ void Game::events()
 	}
 
 	for (auto& obj : objList) {
-		if (obj.handleCollision(&player)) {
+		if (obj->handleCollision(&player)) {
 		}
 	}
 }
@@ -127,16 +144,19 @@ void Game::update()
 {
 	player.update();
 	for (auto& obj : objList) {
-		obj.update();
+		obj->update();
 	}
+	obj.update();
+	Game::camera.update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+	TextureManager::DrawBackground(backgroundtex,Game::renderer);
 	player.render();
 	for (auto& obj : objList) {
-		obj.render();
+		obj->render();
 	}
 	SDL_RenderPresent(renderer);
 
