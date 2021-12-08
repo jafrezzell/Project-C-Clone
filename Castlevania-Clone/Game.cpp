@@ -42,6 +42,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
+
 	backgroundtex = TextureManager::LoadTexture("assets/background.jpg",Game::renderer);
 	player = Player("assets/Enemy_Wizard.png",transform);
 	box = GameObject("assets/wall.png", Transform(0, 300, 1));
@@ -58,6 +59,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	objList.push_back(&box5);
 	obj = WanderingObstacle("assets/wall.png", Transform(160, 400, 1), 1);
 	objList.push_back(&obj);
+
+	player = Player("assets/PlayerAnims/anim_IdleRight",transform);
+	player.LoadAllAnimations();
+
 	player.toggleGravity();
 	player.update();
 	for (auto& obj : objList) {
@@ -81,14 +86,21 @@ void Game::events()
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 		if (state[SDL_SCANCODE_D]) {
 			player.horizontal = 1;
+			player.isRight = true;
 		}
 		else if (state[SDL_SCANCODE_A]) {
 			player.horizontal = -1;
+			player.isRight = false;
 		}
 		else {
 			player.horizontal = 0;
 		}
+
 		if (state[SDL_SCANCODE_SPACE]) {
+			if (player.isRight)
+				player.PlayAnimation(player.anim_JumpRight, false);
+			else
+				player.PlayAnimation(player.anim_JumpLeft, false);
 			player.vertical = 10;
 			player.gravity = true;
 		}
@@ -96,6 +108,32 @@ void Game::events()
 			player.horizontal *= 2;
 		}
 	}
+
+	//Actual switch statement for managing movement animations, needs to be after event-polling loop
+	if (!player.gravity) {
+		switch (player.horizontal)
+		{
+		case 1:
+			player.PlayAnimation(player.anim_RightRun, true);
+			break;
+		case -1:
+			player.PlayAnimation(player.anim_LeftRun, true);
+			break;
+		default:
+			if (player.isRight)
+				player.PlayAnimation(player.anim_RightIdle, true);
+			else
+				player.PlayAnimation(player.anim_LeftIdle, true);
+			break;
+		}
+	}
+	else {
+		if (player.isRight)
+			player.PlayAnimation(player.anim_JumpRight, false);
+		else
+			player.PlayAnimation(player.anim_JumpLeft, false);
+	}
+
 	for (auto& obj : objList) {
 		if (obj->handleCollision(&player)) {
 		}

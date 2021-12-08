@@ -3,6 +3,8 @@
 #include "SDL_image.h"
 #include "WorldSpaceConstructs.h"
 #include "Camera.h"
+#include <vector>
+#include <string>
 #include <iostream>
 
 class Game {
@@ -22,6 +24,7 @@ public:
 	static const int tileSize = 32;
 
 	bool running();
+
 private:
 	int count = 0;
 	bool isRunning;

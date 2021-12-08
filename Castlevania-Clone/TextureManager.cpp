@@ -17,7 +17,7 @@ void TextureManager::Draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest, SDL
 	SDL_Rect shiftDest = { dest.x - Game::camera.position.x, dest.y - Game::camera.position.y, dest.w, dest.h };
 	/*std::cout << Game::camera.position.x << std::endl;
 	std::cout << Game::camera.position.y << std::endl;*/
-	SDL_RenderCopy(renderer, texture, &src, &shiftDest);
+	SDL_RenderCopy(renderer, texture, NULL, &shiftDest);
 }
 
 void TextureManager::DrawBackground(SDL_Texture* texture, SDL_Renderer* renderer) {

@@ -26,6 +26,8 @@ public:
 	int horizontal;
 	int vertical;
 
+	bool isRight = true;
+
 private:
 
 };
