@@ -19,16 +19,16 @@ void Camera::setTarget(Transform* newTransform)
 void Camera::update()
 {
 	if (target != nullptr) {
-		viewbox.x = target->x - Utilities::getwidth() / 2;
-		viewbox.y = target->y - Utilities::getheight() / 2;
+		viewbox.x = target->x - Utilities::getscreenwidth() / 2;
+		viewbox.y = target->y - Utilities::getscreenheight() / 2;
 		std::cout << viewbox.x << std::endl;
 		std::cout << viewbox.y << std::endl;
-		/*if (viewbox.x < 0) {
+		if (viewbox.x < 0) {
 			viewbox.x = 0;
 		}
 		if (viewbox.y < 0) {
 			viewbox.y = 0;
-		}*/
+		}
 		if (viewbox.x > (2 * Utilities::getwidth() - viewbox.w)) {
 			viewbox.x = (2 * Utilities::getwidth() - viewbox.w);
 		}

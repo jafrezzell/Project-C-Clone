@@ -27,10 +27,20 @@ Utilities::RandomGenerator::~RandomGenerator()
 
 int Utilities::getwidth()
 {
-	return 1280;
+	return 1200;
 }
 
 int Utilities::getheight()
 {
-	return 720;
+	return 600;
+}
+
+int Utilities::getscreenwidth()
+{
+	return 900;
+}
+
+int Utilities::getscreenheight()
+{
+	return 600;
 }

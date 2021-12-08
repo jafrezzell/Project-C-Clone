@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 #include "WanderingObstacle.h"
+#include "TextureManager.h"
 #include <vector>
 SDL_Renderer* Game::renderer = nullptr;
 Camera Game::camera;
@@ -16,6 +17,7 @@ GameObject box3;
 GameObject box4;
 GameObject box5;
 std::vector<GameObject*> objList;
+SDL_Texture* backgroundtex;
 
 
 Game::Game()
@@ -40,6 +42,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
+	backgroundtex = TextureManager::LoadTexture("assets/background.jpg",Game::renderer);
 	player = Player("assets/Enemy_Wizard.png",transform);
 	box = GameObject("assets/wall.png", Transform(0, 300, 1));
 	box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
@@ -112,6 +115,7 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+	TextureManager::DrawBackground(backgroundtex,Game::renderer);
 	player.render();
 	for (auto& obj : objList) {
 		obj->render();
