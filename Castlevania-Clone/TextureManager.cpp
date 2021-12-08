@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include <iostream>
 
 SDL_Texture* TextureManager::LoadTexture(const char* fileName, SDL_Renderer* renderer)
 {
@@ -8,7 +9,12 @@ SDL_Texture* TextureManager::LoadTexture(const char* fileName, SDL_Renderer* ren
 	return tex;
 }
 
+
+
 void TextureManager::Draw(SDL_Texture* texture, SDL_Rect src, SDL_Rect dest, SDL_Renderer* renderer)
 {
-	SDL_RenderCopy(renderer, texture, &src, &dest);
+	SDL_Rect shiftDest = { dest.x - Game::camera.position.x, dest.y - Game::camera.position.y, dest.w, dest.h };
+	/*std::cout << Game::camera.position.x << std::endl;
+	std::cout << Game::camera.position.y << std::endl;*/
+	SDL_RenderCopy(renderer, texture, &src, &shiftDest);
 }

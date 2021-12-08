@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	int frameTime;
 
 	Game game;
-	game.init("Castlevania-Clone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, false);
+	game.init("Castlevania-Clone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Utilities::getwidth(), Utilities::getheight(), false);
 	/*Utilities::RandomGenerator gen = Utilities::RandomGenerator();
 	for (int i = 0; i < 5; i++) {
 		std::cout << gen.generateint(100) << std::endl;

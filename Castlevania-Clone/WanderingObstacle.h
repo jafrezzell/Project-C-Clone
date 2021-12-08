@@ -7,6 +7,8 @@ public:
 	WanderingObstacle();
 	~WanderingObstacle();
 
+	void update();
+
 	float speed;
 	float time;
 

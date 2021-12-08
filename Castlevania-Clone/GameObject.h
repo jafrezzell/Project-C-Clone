@@ -14,6 +14,7 @@ public:
 
 	void toggleGravity();
 	Transform transform;
+	Transform origin;
 
 	SDL_Texture* texture;
 	SDL_Rect srcR, destR;

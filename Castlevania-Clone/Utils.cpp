@@ -25,3 +25,12 @@ Utilities::RandomGenerator::~RandomGenerator()
 {
 }
 
+int Utilities::getwidth()
+{
+	return 1280;
+}
+
+int Utilities::getheight()
+{
+	return 720;
+}

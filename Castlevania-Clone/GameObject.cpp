@@ -29,6 +29,7 @@ GameObject::GameObject(const char* textureSheet,Transform transform)
 	this->isFalling = false;
 	horizontal = 0;
 	vertical = 0;
+	this->origin = Transform(transform.x + srcR.w / 2, transform.y + srcR.h / 2);
 }
 
 GameObject::~GameObject()
@@ -39,6 +40,8 @@ void GameObject::update()
 {
 	this->transform.x += horizontal;
 	this->transform.y -= vertical;
+	this->origin.x = transform.x + srcR.w / 2;
+	this->origin.y = transform.y + srcR.h / 2;
 	if (gravity) {
 		if (vertical > -4)
 			vertical -= 1;

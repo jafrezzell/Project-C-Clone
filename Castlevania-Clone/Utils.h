@@ -1,5 +1,7 @@
 #pragma once
 namespace Utilities {
+	int getwidth();
+	int getheight();
 	class RandomGenerator {
 	public:
 		RandomGenerator(unsigned int seed);

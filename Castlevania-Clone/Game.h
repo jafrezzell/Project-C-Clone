@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "WorldSpaceConstructs.h"
+#include "Camera.h"
 #include <iostream>
 
 class Game {
@@ -17,6 +18,7 @@ public:
 	void clean();
 
 	static SDL_Renderer* renderer;
+	static Camera camera;
 	static const int tileSize = 32;
 
 	bool running();
