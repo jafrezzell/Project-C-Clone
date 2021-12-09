@@ -25,6 +25,7 @@ public:
 
 	int horizontal;
 	int vertical;
+	int speed;
 
 	bool isRight = true;
 

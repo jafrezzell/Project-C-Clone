@@ -30,6 +30,7 @@ GameObject::GameObject(const char* textureSheet,Transform transform)
 	horizontal = 0;
 	vertical = 0;
 	this->origin = Transform(transform.x + srcR.w / 2, transform.y + srcR.h / 2);
+	this->speed = 1;
 }
 
 GameObject::~GameObject()
@@ -38,8 +39,8 @@ GameObject::~GameObject()
 
 void GameObject::update()
 {
-	this->transform.x += horizontal;
-	this->transform.y -= vertical;
+	this->transform.x += horizontal * speed;
+	this->transform.y -= vertical * 2;
 	this->origin.x = transform.x + srcR.w / 2;
 	this->origin.y = transform.y + srcR.h / 2;
 	if (gravity) {

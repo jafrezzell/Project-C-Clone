@@ -64,6 +64,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.LoadAllAnimations();
 
 	player.toggleGravity();
+	player.speed = 3;
 	player.update();
 	for (auto& obj : objList) {
 		obj->update();
@@ -97,16 +98,13 @@ void Game::events()
 			player.horizontal = 0;
 		}
 
-		if (state[SDL_SCANCODE_SPACE] && !player.isAttacking) {
+		if (state[SDL_SCANCODE_SPACE] && !player.isAttacking && !player.gravity) {
 			if (player.isRight)
 				player.PlayAnimation(player.anim_JumpRight, false);
 			else
 				player.PlayAnimation(player.anim_JumpLeft, false);
 			player.vertical = 10;
 			player.gravity = true;
-		}
-		if (state[SDL_SCANCODE_LSHIFT]) {
-			player.horizontal *= 2;
 		}
 
 		if (e.type == SDL_MOUSEBUTTONDOWN && !player.isAttacking)
