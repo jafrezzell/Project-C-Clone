@@ -9,6 +9,7 @@ Actor::Actor(const char* textureSheet, Transform transform) : GameObject(texture
 
 Actor::Actor()
 {
+
 }
 
 Actor::~Actor()
@@ -20,39 +21,27 @@ void Actor::update()
 	GameObject::update();
 }
 
-void Actor::LoadAnimation(std::vector<SDL_Texture*> &animation, std::string filePath, int numOfFrames) 
+void Actor::PlayAnimation(Animation animation, bool loop)
 {
-	int lenOfAnim = numOfFrames;
-	std::string fullPngName = "";
-
-	for (int i = 0; i < numOfFrames; i++) {
-		fullPngName = filePath + "/frame_";
-		fullPngName += std::to_string(i) + ".png";
-		animation.push_back(TextureManager::LoadTexture(fullPngName.c_str(), Game::renderer));
-	}
-}
-
-void Actor::PlayAnimation(std::vector<SDL_Texture*> &animation, bool loop)
-{
-	if (this->currentAnimationPlaying != animation)
+	if (this->currentAnimationPlaying.clips != animation.clips)
 	{
-		currentAnimationPlaying = animation;
+		this->currentAnimationPlaying = animation;
 		this->currentAnimFrame = 0;
 	}
 	else 
 	{
-		this->currentAnimFrame++;
+		this->currentAnimFrame += this->currentAnimationPlaying.animationSpeed;
 	}
 
-	if (currentAnimFrame >= animation.size() && loop) 
+	if (this->currentAnimFrame >= animation.animationLength - 1 && loop) 
 	{
 		this->currentAnimFrame = 0;
 	}
-	else if(currentAnimFrame >= animation.size() && !loop){//If character is "stuck" at the end of an animation, it's because of this if-statement
-		this->currentAnimFrame = animation.size() - 1;
+	else if(this->currentAnimFrame >= animation.animationLength - 1 && !loop){//If character is "stuck" at the end of an animation, it's because of this if-statement
+		this->currentAnimFrame = animation.animationLength - 1;
 	}
 
-	this->texture = animation[currentAnimFrame];
+	this->texture = animation.clips[this->currentAnimFrame];
 }
 
 void Actor::LoadAllAnimations() 

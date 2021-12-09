@@ -84,6 +84,7 @@ void Game::events()
 			isRunning = false;
 		}
 		const Uint8* state = SDL_GetKeyboardState(NULL);
+
 		if (state[SDL_SCANCODE_D]) {
 			player.horizontal = 1;
 			player.isRight = true;
@@ -96,7 +97,7 @@ void Game::events()
 			player.horizontal = 0;
 		}
 
-		if (state[SDL_SCANCODE_SPACE]) {
+		if (state[SDL_SCANCODE_SPACE] && !player.isAttacking) {
 			if (player.isRight)
 				player.PlayAnimation(player.anim_JumpRight, false);
 			else
@@ -107,10 +108,19 @@ void Game::events()
 		if (state[SDL_SCANCODE_LSHIFT]) {
 			player.horizontal *= 2;
 		}
+
+		if (e.type == SDL_MOUSEBUTTONDOWN && !player.isAttacking)
+		{
+			player.isAttacking = true;
+			if (player.isRight)
+				player.PlayAnimation(player.anim_AttackRight, false);
+			else
+				player.PlayAnimation(player.anim_AttackLeft, false);
+		}
 	}
 
 	//Actual switch statement for managing movement animations, needs to be after event-polling loop
-	if (!player.gravity) {
+	if (!player.gravity && !player.isAttacking) {
 		switch (player.horizontal)
 		{
 		case 1:
@@ -127,7 +137,7 @@ void Game::events()
 			break;
 		}
 	}
-	else {
+	else if(!player.isAttacking){
 		if (player.isRight)
 			player.PlayAnimation(player.anim_JumpRight, false);
 		else
