@@ -21,6 +21,7 @@ public:
 
 	static SDL_Renderer* renderer;
 	static Camera camera;
+	static int curlvl;
 	static const int tileSize = 64;
 
 	bool running();

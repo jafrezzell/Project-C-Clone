@@ -9,12 +9,13 @@ public:
 	SDL_Texture* bgtex2;
 	SDL_Texture* bgtex3;
 	Player* playerRef;
-	Level(Player* player);
+	Level(Player* player, int map[22][25]);
 	Level();
 	~Level();
 	void update();
 	void render();
 	void renderBG();
 	void events();
-	void processIntMap();
+	void processIntMap(int map[22][25]);
+	bool showThird;
 };
