@@ -34,6 +34,7 @@ GameObject::GameObject(const char* textureSheet,Transform transform)
 
 GameObject::~GameObject()
 {
+	
 }
 
 void GameObject::update()

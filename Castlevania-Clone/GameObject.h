@@ -7,8 +7,8 @@ public:
 	GameObject(const char* textureSheet,Transform transform);
 	~GameObject();
 
-	void update();
-	void render();
+	virtual void update();
+	virtual void render();
 
 	bool handleCollision(GameObject* other);
 
@@ -27,6 +27,7 @@ public:
 	int vertical;
 
 	bool isRight = true;
+	bool isActive = true;
 
 private:
 
