@@ -2,6 +2,7 @@
 #include "GameObject.h";
 #include "Actor.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "WanderingObstacle.h"
 #include "TextureManager.h"
 #include <vector>
@@ -9,6 +10,7 @@ SDL_Renderer* Game::renderer = nullptr;
 Camera Game::camera;
 Transform transform;
 Player player; 
+Enemy wizard1;
 WanderingObstacle obj;
 GameObject box;
 GameObject box1;
@@ -60,11 +62,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	obj = WanderingObstacle("assets/wall.png", Transform(160, 400, 1), 1);
 	objList.push_back(&obj);
 
-	player = Player("assets/PlayerAnims/anim_IdleRight",transform);
+	player = Player("assets/PlayerAnims/anim_IdleRight/frame_0.png", transform);
 	player.LoadAllAnimations();
+
+	wizard1 = Enemy("assets/EnemyAnims/anim_IdleLeft/frame_0.png", Transform(190, 250, 1), &player);
+	wizard1.LoadAllAnimations();
+	objList.push_back(&wizard1);
 
 	player.toggleGravity();
 	player.update();
+
 	for (auto& obj : objList) {
 		obj->update();
 	}
@@ -78,12 +85,25 @@ void Game::events()
 	SDL_Event e;
 	while (SDL_PollEvent(&e) != 0)
 	{
+		const Uint8* state = SDL_GetKeyboardState(NULL);
 		//User requests quit
-		if (e.type == SDL_QUIT)
+		if (e.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 		{
 			isRunning = false;
+			return;
 		}
-		const Uint8* state = SDL_GetKeyboardState(NULL);
+
+		if (player.isDead || player.health <= 0) {
+			player.horizontal = 0;
+			if(player.isRight)
+				player.PlayAnimation(player.anim_DeathRight, false);
+			else
+				player.PlayAnimation(player.anim_DeathLeft, false);
+			if ((int)player.currentAnimFrame >= player.currentAnimationPlaying.animationLength - 1) {
+				isRunning = false;
+			}
+			break;
+		}
 
 		if (state[SDL_SCANCODE_D]) {
 			player.horizontal = 1;
@@ -105,9 +125,6 @@ void Game::events()
 			player.vertical = 10;
 			player.gravity = true;
 		}
-		if (state[SDL_SCANCODE_LSHIFT]) {
-			player.horizontal *= 2;
-		}
 
 		if (e.type == SDL_MOUSEBUTTONDOWN && !player.isAttacking)
 		{
@@ -120,7 +137,7 @@ void Game::events()
 	}
 
 	//Actual switch statement for managing movement animations, needs to be after event-polling loop
-	if (!player.gravity && !player.isAttacking) {
+	if (!player.gravity && !player.isAttacking && !player.isDead) {
 		switch (player.horizontal)
 		{
 		case 1:
@@ -137,7 +154,7 @@ void Game::events()
 			break;
 		}
 	}
-	else if(!player.isAttacking){
+	else if(!player.isAttacking && !player.isDead){
 		if (player.isRight)
 			player.PlayAnimation(player.anim_JumpRight, false);
 		else
@@ -145,7 +162,7 @@ void Game::events()
 	}
 
 	for (auto& obj : objList) {
-		if (obj->handleCollision(&player)) {
+		if (obj->isActive && obj->handleCollision(&player)) {
 		}
 	}
 }
@@ -153,6 +170,23 @@ void Game::events()
 void Game::update()
 {
 	player.update();
+	GameObject playerCurrentHitBox;
+	if (player.LeftHitBox.isActive || player.RightHitBox.isActive)
+	{
+		if (player.LeftHitBox.isActive)
+			playerCurrentHitBox = player.LeftHitBox;
+		else
+			playerCurrentHitBox = player.RightHitBox;
+		for (auto& obj : objList) {
+			if (obj->isActive && dynamic_cast<Enemy*>(obj))
+			{
+				if(playerCurrentHitBox.handleCollision(obj))
+					dynamic_cast<Enemy*>(obj)->isDead = true;
+			}
+		}
+	}
+
+	//wizard1.update();
 	for (auto& obj : objList) {
 		obj->update();
 	}

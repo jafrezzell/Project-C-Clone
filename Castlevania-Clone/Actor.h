@@ -15,9 +15,12 @@ public:
 	int health;
 	int maxHealth = 100;
 
+	bool isDead = false;
+
 	//Represents the current frame an animation is at, if it is playing.
 	float currentAnimFrame = 0;
 	//Self explanatory
 	Animation currentAnimationPlaying;
+
 private:
 };
