@@ -25,7 +25,7 @@ int Level1[22][25] = {
 3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,0,3,3,3,0,1,
 3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,3,3,3,3,3,1,
-3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,9,0,0,0,3,3,3,3,3,3,3,
 3,5,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,3,5,5,5,5,5,3,
 3,5,5,4,4,4,4,4,4,3,7,7,7,6,6,0,0,0,3,3,5,5,5,3,3,
 3,5,5,5,5,5,5,5,5,3,3,3,0,0,0,0,0,0,0,3,5,5,5,3,1,
@@ -34,7 +34,7 @@ int Level1[22][25] = {
 3,5,4,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,5,4,5,5,3,1,
 3,5,5,5,4,5,5,5,5,3,0,0,0,0,0,0,0,0,0,5,5,5,5,3,1,
 3,5,5,5,5,5,4,5,5,3,0,0,0,0,0,0,0,0,0,3,5,5,4,3,1,
-3,5,5,5,5,5,5,5,4,3,0,3,3,3,3,3,0,0,0,3,5,5,5,3,1,
+3,5,5,5,9,5,5,5,4,3,0,3,3,3,3,3,0,0,0,3,5,5,5,3,1,
 3,5,5,5,5,5,5,5,5,3,0,3,5,5,5,3,0,3,3,3,4,5,5,3,1,
 3,5,5,5,5,5,5,3,3,3,3,3,5,5,5,3,3,3,5,5,5,5,5,3,3,
 3,5,5,5,5,3,3,3,3,3,5,5,5,5,5,5,5,5,5,5,5,5,4,5,3,
@@ -92,7 +92,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//player = Player("assets/PlayerAnims/anim_IdleRight",Transform(100,1300));
 	//player.LoadAllAnimations();
-	player = Player("assets/PlayerAnims/anim_IdleRight/frame_0.png", transform);
+	player = Player("assets/PlayerAnims/anim_IdleRight/frame_0.png", Transform(100,1300));
 	player.LoadAllAnimations();
 	player.toggleGravity();
 	player.speed = 3;
@@ -200,6 +200,7 @@ void Game::update()
 {
 	player.update();
 	curLevel.update();
+	Game::camera.update();
 	/*GameObject playerCurrentHitBox;
 	if (player.LeftHitBox.isActive || player.RightHitBox.isActive)
 	{
@@ -221,7 +222,7 @@ void Game::update()
 		obj->update();
 	}
 	obj.update();*/
-	Game::camera.update();
+	
 }
 
 void Game::render()

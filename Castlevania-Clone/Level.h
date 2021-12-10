@@ -4,7 +4,7 @@
 #include "Utils.h"
 class Level {
 public:
-	std::vector<GameObject> gameObjects;
+	std::vector<GameObject*> gameObjects;
 	SDL_Texture* bgtex1;
 	SDL_Texture* bgtex2;
 	SDL_Texture* bgtex3;

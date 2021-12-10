@@ -144,6 +144,7 @@ void Enemy::LoadAllAnimations()
 
 void Enemy::render() 
 {
+	std::cout << "Render" << std::endl;
 	Actor::render();
 	for(GameObject* fBall : this->FireballList)
 	{
