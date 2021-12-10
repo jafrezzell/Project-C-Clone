@@ -35,7 +35,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
-	player = Player("assets/PlayerAnims/anim_IdleRight",Transform(200,200));
+	player = Player("assets/PlayerAnims/anim_IdleRight",Transform(100,1300));
 	player.LoadAllAnimations();
 	player.toggleGravity();
 	player.speed = 3;
@@ -131,8 +131,9 @@ void Game::render()
 {
 	SDL_RenderClear(renderer);
 	level.renderBG();
-	player.render();
 	level.render();
+	player.render();
+	
 	SDL_RenderPresent(renderer);
 
 }

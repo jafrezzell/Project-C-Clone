@@ -22,6 +22,7 @@ public:
 
 	bool gravity;
 	bool isFalling;
+	bool collision;
 
 	int horizontal;
 	int vertical;

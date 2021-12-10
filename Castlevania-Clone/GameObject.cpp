@@ -31,6 +31,7 @@ GameObject::GameObject(const char* textureSheet,Transform transform)
 	vertical = 0;
 	this->origin = Transform(transform.x + srcR.w / 2, transform.y + srcR.h / 2);
 	this->speed = 1;
+	this->collision = true;
 }
 
 GameObject::~GameObject()
@@ -60,6 +61,9 @@ void GameObject::render()
 /*a is usually the player and b is always 'this' game object*/
 bool GameObject::handleCollision(GameObject* other)
 {
+	if (this->collision == false) {
+		return false;
+	}
 	SDL_Rect* a = &other->destR;
 	SDL_Rect* b = &this->destR;
 	//The sides of the rectangles
