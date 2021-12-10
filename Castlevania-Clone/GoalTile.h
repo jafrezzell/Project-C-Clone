@@ -2,7 +2,7 @@
 #include "GameObject.h"
 class GoalTile : public GameObject {
 public:
-	GoalTile();
+	GoalTile(const char* textureSheet, Transform transform);
 	~GoalTile();
-	bool handleCollision(GameObject* other);
+	virtual bool handleCollision(GameObject* other);
 };

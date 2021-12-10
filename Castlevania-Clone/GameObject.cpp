@@ -46,7 +46,7 @@ void GameObject::update()
 	this->origin.x = transform.x + srcR.w / 2;
 	this->origin.y = transform.y + srcR.h / 2;
 	if (gravity) {
-		if (vertical > -4)
+		if (vertical > -3)
 			vertical -= 1;
 	}
 	destR.x = transform.x;
