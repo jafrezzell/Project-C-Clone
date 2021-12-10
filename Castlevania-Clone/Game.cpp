@@ -79,7 +79,7 @@ void Game::events()
 				player.PlayAnimation(player.anim_JumpRight, false);
 			else
 				player.PlayAnimation(player.anim_JumpLeft, false);
-			player.vertical = 10;
+			player.vertical = 13;
 			player.gravity = true;
 		}
 

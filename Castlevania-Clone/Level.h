@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h";
 #include <vector>
+#include "Utils.h"
 class Level {
 public:
 	std::vector<GameObject> gameObjects;
@@ -11,7 +12,6 @@ public:
 	Level(Player* player);
 	Level();
 	~Level();
-
 	void update();
 	void render();
 	void renderBG();

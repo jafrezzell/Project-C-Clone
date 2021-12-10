@@ -19,15 +19,15 @@ const int arr[22][25] = {
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,3,4,4,4,4,4,4,3,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,3,3,0,0,0,0,0,3,3,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,3,3,3,3,0,0,0,3,3,3,3,0,0,0,0,0,0,1,
+1,0,0,0,0,0,3,3,3,3,3,0,0,3,3,3,3,3,3,0,0,0,0,0,1,
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 };
 const int height = 22;
 const int width = 25;
-Level::Level(Player* player, int[22][25])
+Level::Level(Player* player)
 {
 	this->playerRef = player;
 	this->bgtex1 = TextureManager::LoadTexture("assets/Temple/background.png", Game::renderer);
@@ -86,6 +86,14 @@ void Level::processIntMap()
 				break;
 			case 2:
 				g = GameObject("assets/floor.png", Transform(j * Game::tileSize, i * Game::tileSize, 1));
+				this->gameObjects.push_back(g);
+				break;
+			case 3:
+				g = GameObject("assets/bricks.png", Transform(j * Game::tileSize, i * Game::tileSize, 1));
+				this->gameObjects.push_back(g);
+				break;
+			case 4:
+				g = GameObject("assets/bridge.png", Transform(j * Game::tileSize, i * Game::tileSize, 1));
 				this->gameObjects.push_back(g);
 				break;
 			}
