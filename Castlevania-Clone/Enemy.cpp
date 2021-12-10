@@ -9,6 +9,7 @@ Enemy::Enemy(const char* textureSheet, Transform transform, Player* currentPlaye
 {
 	this->currentPlayer = currentPlayer;
 	this->isRight = false;
+	this->transform = transform;
 }
 
 Enemy::~Enemy() 
@@ -22,7 +23,7 @@ void Enemy::update()
 	int fireballMaxSize = FireballList.size();
 	for (int i = 0; i < fireballMaxSize; i++)
 	{
-		if ((abs(FireballList[i]->transform.x) - abs(this->transform.x)) >= AttackRange)
+		if (abs(abs(FireballList[i]->transform.x) - abs(this->transform.x)) >= AttackRange)
 		{
 			GameObject* ballToRem = FireballList[i];
 			FireballList.erase(FireballList.begin() + i);
@@ -67,21 +68,21 @@ void Enemy::update()
 		{
 			int roundedFrame = (int)currentAnimFrame;
 			//Spawn a fireball at end of animation
-			if (roundedFrame == currentAnimationPlaying.animationLength - 2 && !hasFired)
+			if (roundedFrame == currentAnimationPlaying.animationLength - 2 && !hasFired && FireballList.size() == 0)
 			{
 				hasFired = true;
 				GameObject* Fireball;
 				if (isRight) {
 					Fireball = new GameObject("assets/EnemyAnims/anim_FireballRight/frame_0.png", Transform(this->transform.x + 5, this->transform.y, 0.75f));
 					Fireball->isRight = true;
-					Fireball->horizontal = 1;
+					Fireball->horizontal = 2;
 					FireballList.push_back(Fireball);
 					Fireball->update();
 				}
 				else {
 					Fireball = new GameObject("assets/EnemyAnims/anim_FireballLeft/frame_0.png", Transform(this->transform.x - 5, this->transform.y, 0.75f));
 					Fireball->isRight = false;
-					Fireball->horizontal = -1;
+					Fireball->horizontal = -2;
 					FireballList.push_back(Fireball);
 					Fireball->update();
 				}

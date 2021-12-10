@@ -10,7 +10,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	bool handleCollision(GameObject* other);
+	virtual bool handleCollision(GameObject* other);
 
 	void toggleGravity();
 	Transform transform;

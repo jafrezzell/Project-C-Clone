@@ -19,7 +19,7 @@ public:
 
 	bool isAttacking = false;
 	bool hasFired = false;
-	float AttackRange = 100.0f;
+	float AttackRange = 600.0f;
 
 	Player* currentPlayer;
 

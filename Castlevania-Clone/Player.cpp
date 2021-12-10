@@ -8,6 +8,8 @@ Player::Player(const char* textureSheet, Transform transform) : Actor(textureShe
 {
 	RightHitBox = GameObject("assets/wall.png", Transform(transform.x + 1, transform.y, transform.scale));
 	LeftHitBox = GameObject("assets/wall.png", Transform(transform.x - 1, transform.y, transform.scale));
+	RightHitBox.isActive = false;
+	LeftHitBox.isActive = false;
 }
 
 Player::~Player()
