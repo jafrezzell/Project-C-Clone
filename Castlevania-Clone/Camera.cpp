@@ -4,7 +4,7 @@
 
 Camera::Camera()
 {
-	viewbox = { 0,0,1280,720 };
+	viewbox = { 0,0,Utilities::getscreenwidth(),Utilities::getscreenheight() };
 }
 
 Camera::~Camera()
@@ -27,8 +27,8 @@ void Camera::update()
 		if (viewbox.y < 0) {
 			viewbox.y = 0;
 		}
-		if (viewbox.x > (2 * Utilities::getwidth() - viewbox.w)) {
-			viewbox.x = (2 * Utilities::getwidth() - viewbox.w);
+		if (viewbox.x > (Utilities::getwidth() - viewbox.w)) {
+			viewbox.x = ( Utilities::getwidth() - viewbox.w);
 		}
 		if (viewbox.y > (2 * Utilities::getheight() - viewbox.h)) {
 			viewbox.y = (2 * Utilities::getheight() - viewbox.h);

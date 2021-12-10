@@ -5,19 +5,12 @@
 #include "WanderingObstacle.h"
 #include "TextureManager.h"
 #include <vector>
+#include "Level.h"
 SDL_Renderer* Game::renderer = nullptr;
 Camera Game::camera;
 Transform transform;
 Player player; 
-WanderingObstacle obj;
-GameObject box;
-GameObject box1;
-GameObject box2;
-GameObject box3;
-GameObject box4;
-GameObject box5;
-std::vector<GameObject*> objList;
-SDL_Texture* backgroundtex;
+Level level;
 
 
 Game::Game()
@@ -42,33 +35,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 		isRunning = true;
 	}
-
-	backgroundtex = TextureManager::LoadTexture("assets/background.jpg",Game::renderer);
-	player = Player("assets/Enemy_Wizard.png",transform);
-	box = GameObject("assets/wall.png", Transform(0, 300, 1));
-	box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
-	box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
-	box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
-	box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
-	box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
-	objList.push_back(&box);
-	objList.push_back(&box1);
-	objList.push_back(&box2);
-	objList.push_back(&box3);
-	objList.push_back(&box4);
-	objList.push_back(&box5);
-	obj = WanderingObstacle("assets/wall.png", Transform(160, 400, 1), 1);
-	objList.push_back(&obj);
-
-	player = Player("assets/PlayerAnims/anim_IdleRight",transform);
+	player = Player("assets/PlayerAnims/anim_IdleRight",Transform(200,200));
 	player.LoadAllAnimations();
-
 	player.toggleGravity();
 	player.speed = 3;
+
+	level = Level(&player);
+	level.update();
+
 	player.update();
-	for (auto& obj : objList) {
-		obj->update();
-	}
+	
 	Game::camera = Camera();
 	Game::camera.setTarget(&player.origin);
 	Game::camera.update();
@@ -116,6 +92,7 @@ void Game::events()
 				player.PlayAnimation(player.anim_AttackLeft, false);
 		}
 	}
+	level.events();
 
 	//Actual switch statement for managing movement animations, needs to be after event-polling loop
 	if (!player.gravity && !player.isAttacking) {
@@ -141,31 +118,21 @@ void Game::events()
 		else
 			player.PlayAnimation(player.anim_JumpLeft, false);
 	}
-
-	for (auto& obj : objList) {
-		if (obj->handleCollision(&player)) {
-		}
-	}
 }
 
 void Game::update()
 {
 	player.update();
-	for (auto& obj : objList) {
-		obj->update();
-	}
-	obj.update();
+	level.update();
 	Game::camera.update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	TextureManager::DrawBackground(backgroundtex,Game::renderer);
+	level.renderBG();
 	player.render();
-	for (auto& obj : objList) {
-		obj->render();
-	}
+	level.render();
 	SDL_RenderPresent(renderer);
 
 }
