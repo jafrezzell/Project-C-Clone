@@ -6,20 +6,65 @@
 #include "WanderingObstacle.h"
 #include "TextureManager.h"
 #include <vector>
+#include "Level.h"
 SDL_Renderer* Game::renderer = nullptr;
+int Game::curlvl = NULL;
 Camera Game::camera;
 Transform transform;
 Player player; 
-Enemy wizard1;
-WanderingObstacle obj;
-GameObject box;
-GameObject box1;
-GameObject box2;
-GameObject box3;
-GameObject box4;
-GameObject box5;
-std::vector<GameObject*> objList;
-SDL_Texture* backgroundtex;
+Level level1;
+Level level2;
+Level curLevel;
+
+//Levels
+int Level1[22][25] = {
+1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,0,3,3,3,0,1,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,3,3,3,3,3,1,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,
+3,5,5,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,3,5,5,5,5,5,3,
+3,5,5,4,4,4,4,4,4,3,7,7,7,6,6,0,0,0,3,3,5,5,5,3,3,
+3,5,5,5,5,5,5,5,5,3,3,3,0,0,0,0,0,0,0,3,5,5,5,3,1,
+3,4,5,5,5,5,5,5,5,3,3,0,0,0,0,0,0,0,0,3,5,5,4,3,1,
+3,5,5,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,3,5,5,5,3,1,
+3,5,4,5,5,5,5,5,5,3,0,0,0,0,0,0,0,0,0,5,4,5,5,3,1,
+3,5,5,5,4,5,5,5,5,3,0,0,0,0,0,0,0,0,0,5,5,5,5,3,1,
+3,5,5,5,5,5,4,5,5,3,0,0,0,0,0,0,0,0,0,3,5,5,4,3,1,
+3,5,5,5,5,5,5,5,4,3,0,3,3,3,3,3,0,0,0,3,5,5,5,3,1,
+3,5,5,5,5,5,5,5,5,3,0,3,5,5,5,3,0,3,3,3,4,5,5,3,1,
+3,5,5,5,5,5,5,3,3,3,3,3,5,5,5,3,3,3,5,5,5,5,5,3,3,
+3,5,5,5,5,3,3,3,3,3,5,5,5,5,5,5,5,5,5,5,5,5,4,5,3,
+3,5,5,3,3,3,3,3,3,3,5,5,5,8,5,5,5,5,5,5,5,5,5,5,3,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+};
+int Level2[22][25] = {
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,5,5,5,3,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,5,5,5,5,5,3,3,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,5,5,5,5,5,3,3,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,5,5,5,5,5,3,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,5,5,5,5,5,5,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,5,5,4,4,4,3,6,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,5,5,5,5,5,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,5,5,5,5,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,5,5,5,5,5,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,4,5,5,3,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,5,5,5,5,5,5,3,1,
+0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,3,5,5,5,5,4,3,1,
+0,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,3,5,5,5,5,5,3,1,
+0,0,0,0,0,0,0,3,3,5,5,3,3,0,0,0,0,3,5,5,4,5,5,3,1,
+0,0,0,0,0,0,3,3,5,5,5,5,3,3,0,0,0,3,5,5,5,5,5,3,1,
+0,0,0,0,0,0,5,5,5,5,5,5,5,3,3,0,0,3,4,5,5,5,5,3,1,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+};
 
 
 Game::Game()
@@ -45,36 +90,22 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = true;
 	}
 
-	backgroundtex = TextureManager::LoadTexture("assets/background.jpg",Game::renderer);
-	player = Player("assets/Enemy_Wizard.png",transform);
-	box = GameObject("assets/wall.png", Transform(0, 300, 1));
-	box1 = GameObject("assets/wall.png", Transform(32, 300, 1));
-	box2 = GameObject("assets/wall.png", Transform(64, 300, 1));
-	box3 = GameObject("assets/wall.png", Transform(96, 300, 1));
-	box4 = GameObject("assets/wall.png", Transform(128, 300, 1));
-	box5 = GameObject("assets/wall.png", Transform(160, 300, 1));
-	objList.push_back(&box);
-	objList.push_back(&box1);
-	objList.push_back(&box2);
-	objList.push_back(&box3);
-	objList.push_back(&box4);
-	objList.push_back(&box5);
-	obj = WanderingObstacle("assets/wall.png", Transform(160, 400, 1), 1);
-	objList.push_back(&obj);
-
+	//player = Player("assets/PlayerAnims/anim_IdleRight",Transform(100,1300));
+	//player.LoadAllAnimations();
 	player = Player("assets/PlayerAnims/anim_IdleRight/frame_0.png", transform);
 	player.LoadAllAnimations();
-
-	wizard1 = Enemy("assets/EnemyAnims/anim_IdleLeft/frame_0.png", Transform(190, 250, 1), &player);
-	wizard1.LoadAllAnimations();
-	objList.push_back(&wizard1);
-
 	player.toggleGravity();
+	player.speed = 3;
+
+	level1 = Level(&player, Level1);
+	level2 = Level(&player, Level2);
+	level2.showThird = true;
+	level1.update();
+	curLevel = level1;
+	Game::curlvl = 1;
+
 	player.update();
 
-	for (auto& obj : objList) {
-		obj->update();
-	}
 	Game::camera = Camera();
 	Game::camera.setTarget(&player.origin);
 	Game::camera.update();
@@ -117,12 +148,12 @@ void Game::events()
 			player.horizontal = 0;
 		}
 
-		if (state[SDL_SCANCODE_SPACE] && !player.isAttacking) {
+		if (state[SDL_SCANCODE_SPACE] && !player.isAttacking && !player.gravity) {
 			if (player.isRight)
 				player.PlayAnimation(player.anim_JumpRight, false);
 			else
 				player.PlayAnimation(player.anim_JumpLeft, false);
-			player.vertical = 10;
+			player.vertical = 13;
 			player.gravity = true;
 		}
 
@@ -135,6 +166,9 @@ void Game::events()
 				player.PlayAnimation(player.anim_AttackLeft, false);
 		}
 	}
+	if (curlvl == 2)
+		curLevel = level2;
+	curLevel.events();
 
 	//Actual switch statement for managing movement animations, needs to be after event-polling loop
 	if (!player.gravity && !player.isAttacking && !player.isDead) {
@@ -160,17 +194,13 @@ void Game::events()
 		else
 			player.PlayAnimation(player.anim_JumpLeft, false);
 	}
-
-	for (auto& obj : objList) {
-		if (obj->isActive && obj->handleCollision(&player)) {
-		}
-	}
 }
 
 void Game::update()
 {
 	player.update();
-	GameObject playerCurrentHitBox;
+	curLevel.update();
+	/*GameObject playerCurrentHitBox;
 	if (player.LeftHitBox.isActive || player.RightHitBox.isActive)
 	{
 		if (player.LeftHitBox.isActive)
@@ -190,18 +220,17 @@ void Game::update()
 	for (auto& obj : objList) {
 		obj->update();
 	}
-	obj.update();
+	obj.update();*/
 	Game::camera.update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	TextureManager::DrawBackground(backgroundtex,Game::renderer);
+	curLevel.renderBG();
+	curLevel.render();
 	player.render();
-	for (auto& obj : objList) {
-		obj->render();
-	}
+	
 	SDL_RenderPresent(renderer);
 
 }

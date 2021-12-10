@@ -2,6 +2,8 @@
 namespace Utilities {
 	int getwidth();
 	int getheight();
+	int lvlwidth();
+	int lvlheight();
 	int getscreenwidth();
 	int getscreenheight();
 	class RandomGenerator {

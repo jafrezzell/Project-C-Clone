@@ -22,9 +22,11 @@ public:
 
 	bool gravity;
 	bool isFalling;
+	bool collision;
 
 	int horizontal;
 	int vertical;
+	int speed;
 
 	bool isRight = true;
 	bool isActive = true;

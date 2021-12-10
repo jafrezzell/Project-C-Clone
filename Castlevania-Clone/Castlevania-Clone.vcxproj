@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\vclib\SDL2-devel-2.0.16-VC\include;C:\vclib\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2-devel-2.0.16-VC\lib\x64;C:\vclib\SDL2_image-2.0.5\lib\x64;C:\vclib\SDL2_image-2.0.5\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;C:\vclib\SDL2-devel-2.0.16-VC\include;C:\vclib\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;C:\vclib\SDL2-devel-2.0.16-VC\lib\x64;C:\vclib\SDL2_image-2.0.5\lib\x64;C:\vclib\SDL2_image-2.0.5\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;C:\vs_dev_lib\SDL2_image-2.0.5\include;C:\vs_dev_lib\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;C:\vs_dev_lib\SDL2_image-2.0.5\lib\x64;C:\vs_dev_lib\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -157,6 +157,8 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GoalTile.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="WanderSpawner.cpp" />
@@ -172,6 +174,8 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GoalTile.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="WanderSpawner.h" />
     <ClInclude Include="TextureManager.h" />
